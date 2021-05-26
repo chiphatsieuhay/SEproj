@@ -1,0 +1,178 @@
+package seGui;
+
+import java.util.ArrayList;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.scene.control.RadioButton;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.StrokeType;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextBoundsType;
+
+public class SeGuiController {
+	Color color = new Color(0, 0, 0, 0) ;
+	
+	
+	ObservableList<StackPane> list = FXCollections.observableArrayList();
+	Text text;
+	
+	
+	enum Connect {
+	    Dragging,
+	    notDragging
+	  }
+	Connect connect = Connect.notDragging;
+	Edges edges = new Edges();
+	int SX;
+	int SY;
+	int EX;
+	int EY;
+	
+	Boolean clickOnNode(int X,int Y,int eX,int eY) {
+		if ((Math.abs(SX-eX)<=17) && (Math.abs(Y-eY)<=17)){
+			return true;
+		}
+		return false;
+	}
+	
+	@FXML
+    private Pane graphArea;
+	
+	@FXML
+    private RadioButton addCityRadioBtn;
+	@FXML
+    private RadioButton removeCityRadioBtn;
+	@FXML
+    private RadioButton addEdgeRadioBtn;
+	@FXML
+    private RadioButton removeEdgeRadioBtn;
+	
+	@FXML
+    void AddCity() {
+		removeCityRadioBtn.setSelected(false);
+		addEdgeRadioBtn.setSelected(false);
+		removeEdgeRadioBtn.setSelected(false);
+	
+    }
+	
+	@FXML
+    void RemoveCity() {
+		addCityRadioBtn.setSelected(false);
+		addEdgeRadioBtn.setSelected(false);
+		removeEdgeRadioBtn.setSelected(false);
+	
+    }
+	
+	@FXML
+    void AddEdge() {
+		addCityRadioBtn.setSelected(false);
+		removeCityRadioBtn.setSelected(false);
+		removeEdgeRadioBtn.setSelected(false);
+	
+    }
+	@FXML
+	void RemoveEdge() {
+		addCityRadioBtn.setSelected(false);
+		removeCityRadioBtn.setSelected(false);
+		addEdgeRadioBtn.setSelected(false);
+	
+    }
+	
+	@FXML
+    void graphAreaClicked(MouseEvent event) {
+		
+		if (addCityRadioBtn.isSelected()) {
+		
+			StackPane stack = new StackPane();
+			list.add(stack);
+			 Circle newCircle = new Circle(15);
+			    
+		        newCircle.setStroke(Color.FORESTGREEN);
+
+		        newCircle.setStrokeType(StrokeType.INSIDE);
+		        newCircle.setFill(Color.AZURE);
+		       
+			text = new Text(Integer.toString(list.indexOf(stack)));
+		
+			text.setBoundsType(TextBoundsType.VISUAL); 
+//			 text.textProperty().bind(list.indexOf(stack));
+	        
+//	        text.textProperty().bindBidirectional(list.indexOf(stack));
+	        
+	        stack.relocate(event.getX(), event.getY());
+	        stack.getChildren().add( newCircle);
+	        stack.getChildren().add( text);
+	        
+	        graphArea.getChildren().add(stack);
+
+	        
+		}else if (removeCityRadioBtn.isSelected()) {
+			for (int i = 0; i < list.size(); i++) {
+				 
+	                if (clickOnNode((int)list.get(i).getLayoutX(),(int)list.get(i).getLayoutY(),(int)event.getX(),(int)event.getY())) {
+	                	 
+	                    graphArea.getChildren().remove(list.get(i));
+	                    list.remove(i);
+	                    break;
+	                    
+	                }
+	            }
+		}
+		
+    }
+	@FXML
+	void graphAreaStart(MouseEvent event) {
+		
+		if (addEdgeRadioBtn.isSelected()) {
+			System.out.println("hi");
+			connect = Connect.Dragging;
+			for (int i = 0; i < list.size(); i++) {
+				 
+                if (clickOnNode(list.get(i).getLayoutX(),list.get(i).getLayoutY(),event.getX(),event.getY())) {
+                	 
+                    this.SX = list.get(i).getLayoutX();
+                    this.SY = list.get(i).getLayoutY();
+                    break;
+                }
+            }
+		}else if (removeEdgeRadioBtn.isSelected()) {
+			System.out.println("hi");
+			connect = Connect.Dragging;
+		}
+    }
+	
+	@FXML
+	void graphAreaFinish(MouseEvent event) {
+//		System.out.println("hello");
+		if (addEdgeRadioBtn.isSelected()&& connect == Connect.Dragging) {
+			System.out.println("hello");
+			connect = Connect.notDragging;
+			for (int i = 0; i < list.size(); i++) {
+				 
+                if (clickOnNode(list.get(i).getLayoutX(),list.get(i).getLayoutY(),event.getX(),event.getY())) {
+                	 
+                    this.EX = list.get(i).getLayoutX();
+                    this.EY = list.get(i).getLayoutY();
+                    break;
+                }
+            }
+			Edge e1 = new Edge(this.SX, this.EX, this.SY, this.EY, 0);
+			graphArea.getChildren().add(e1.getLine());
+			edges.addEdge(e1);
+			edges.showEdges();
+			
+			
+		}else if (removeEdgeRadioBtn.isSelected()&& connect == Connect.Dragging) {
+			System.out.println("hello");
+			connect = Connect.notDragging;
+		}
+    }
+	
+}

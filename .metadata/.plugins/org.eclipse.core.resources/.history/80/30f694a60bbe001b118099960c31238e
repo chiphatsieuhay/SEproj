@@ -1,0 +1,44 @@
+package seGui;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
+public class Edges {
+	private ObservableList<Edge> sequence = FXCollections.observableArrayList();
+	public ObservableList<Edge> getSequence() {
+		return sequence;
+	}
+	
+	public void clearEdges() {
+		sequence.clear();
+    }
+	
+	public int existeEdge(Edge edge) {
+		for (int i = 0;i < sequence.size();i++) {
+			if (edge.getStartX()==sequence.get(i).getStartX() &&
+					edge.getStartY()==sequence.get(i).getStartY() &&
+					edge.getEndX() == sequence.get(i).getEndX() &&
+							edge.getEndY() == sequence.get(i).getEndY()
+					) {
+				System.out.println("edge exists");
+				return 1;
+			}
+		}
+		System.out.println("edge did not exist");
+		return -1;
+	}
+	public Boolean addEdge(Edge edge) {
+		
+			if (existeEdge(edge)!=-1) {
+				return false;
+			}else {
+				sequence.add(edge);
+			System.out.println("The edge has been added to the current sequence!");
+			return true;
+			}
+		}
+	
+	
+		
+	
+}

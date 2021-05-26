@@ -1,0 +1,45 @@
+package seGui;
+
+import javafx.scene.shape.Line;
+
+public class Edge {
+	private int startX;
+	private int endX;
+	private int startY;
+	private int endY;
+	private int cost;
+	private Line line;
+	public Edge(int startX, int endX, int startY, int endY, int cost) {
+		super();
+		this.startX = startX;
+		this.endX = endX;
+		this.startY = startY;
+		this.endY = endY;
+		this.cost = cost;
+		line = new Line(this.startX,this.startY,this.endX,this.endY);
+	}
+	public Line getLine() {
+		return line;
+	}
+	public int getStartX() {
+		return startX;
+	}
+	public int getEndX() {
+		return endX;
+	}
+	public int getStartY() {
+		return startY;
+	}
+	public int getEndY() {
+		return endY;
+	}
+	public int getCost() {
+		return cost;
+	}
+	public void setCost(int cost) {
+		this.cost = cost;
+	}
+	
+	
+	
+}

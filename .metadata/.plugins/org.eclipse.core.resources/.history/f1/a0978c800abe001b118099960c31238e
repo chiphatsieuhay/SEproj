@@ -1,0 +1,11 @@
+package seGui;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
+public class Edges {
+	private ObservableList<Edge> sequence =FXCollections.observableArrayList();
+	public ObservableList<Edge> getSequence() {
+		return sequence;
+	}
+}
