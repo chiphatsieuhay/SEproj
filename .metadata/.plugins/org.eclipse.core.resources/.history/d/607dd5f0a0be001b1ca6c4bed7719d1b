@@ -215,8 +215,7 @@ public class SeGuiController {
 					}
 					if (tontai == 0 ) {
 						Edge e1 = new Edge(this.S, this.E, c);
-						graphArea.getChildren().add(0, e1.getLine());
-//						graphArea.getChildren().add(e1.getLine());
+						graphArea.getChildren().add(e1.getLine());
 						edges.addEdge(e1);
 						edges.showEdges();
 					}else {

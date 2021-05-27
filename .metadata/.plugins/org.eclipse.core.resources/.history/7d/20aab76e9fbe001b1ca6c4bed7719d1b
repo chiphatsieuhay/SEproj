@@ -2,7 +2,7 @@ package seGui;
 
 
 
-
+import java.util.Optional;
 
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
@@ -18,6 +18,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
+import javafx.scene.text.Text;
 
 
 public class SeGuiController {
@@ -203,24 +204,16 @@ public class SeGuiController {
 			if (this.S!=this.E) {
 				int c = createDialog();
 				if (c!=-1) {
-					int tontai = 0;
-					for (int j=0;j<edges.getSequence().size();j++) {
+					
+					for (int j=0;j<=edges.getSequence().size();j++) {
 						if (edges.getSequence().get(j).existedEdge(S, E)) {
-							System.out.println("ton tai");
-							tontai =1; 
-							break;
-						}else {
 							
+						}else {
+							Edge e1 = new Edge(this.S, this.E, c);
+							graphArea.getChildren().add(e1.getLine());
+							edges.addEdge(e1);
+							edges.showEdges();
 						}
-					}
-					if (tontai == 0 ) {
-						Edge e1 = new Edge(this.S, this.E, c);
-						graphArea.getChildren().add(0, e1.getLine());
-//						graphArea.getChildren().add(e1.getLine());
-						edges.addEdge(e1);
-						edges.showEdges();
-					}else {
-						
 					}
 					
 				}else {
@@ -258,7 +251,7 @@ public class SeGuiController {
 	int createDialog() {
 		
 		// create a text input dialog
-        TextInputDialog td = new TextInputDialog();
+        TextInputDialog td = new TextInputDialog("enter number");
   
         // setHeaderText
         td.setHeaderText("enter cost between them");
