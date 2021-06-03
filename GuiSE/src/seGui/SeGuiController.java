@@ -4,6 +4,11 @@ package seGui;
 
 
 
+
+
+import java.util.Timer;
+import java.util.TimerTask;
+
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,6 +26,8 @@ import javafx.scene.paint.Color;
 
 
 public class SeGuiController {
+	
+	int[][] m1;
 	
 	ObservableList<Node> list = FXCollections.observableArrayList();
 	
@@ -43,12 +50,7 @@ public class SeGuiController {
 			    new PropertyValueFactory<Edge,Float>("cost"));
 		EndCol.setCellValueFactory(param -> new ReadOnlyStringWrapper(param.getValue().getIndexEnd()));
 		StartCol.setCellValueFactory(param -> new ReadOnlyStringWrapper(param.getValue().getIndexStart()));
-//		EndCol.setCellValueFactory(
-//			    new PropertyValueFactory<Edge,String>( cellData -> new ReadOnlyStringWrapper(cellData.getValue().getdate())));
-//			   
-//		
-//		StartCol.setCellValueFactory(
-//			    new PropertyValueFactory<Edge,String>("text"));
+
 		
 		weigthTbl.setItems(this.edges.getSequence());
 		
@@ -57,16 +59,16 @@ public class SeGuiController {
 	Color color = new Color(0, 0, 0, 0) ;
 	
 	
-	
-	
-	
+
 	
 	enum Connect {
 	    Dragging,
 	    notDragging
 	  }
 	Connect connect = Connect.notDragging;
+	
 	Edges edges = new Edges();
+	
 	Node S;
 	Node E;
 	
@@ -91,6 +93,47 @@ public class SeGuiController {
 	@FXML
     private RadioButton removeEdgeRadioBtn;
 	
+	@FXML
+	void runBtnPressed()  {
+		makeMatrix();
+//		invisibleEdge();
+//		runSolution(null);
+		runTabuSearch();
+		
+		System.out.print("Done");
+	}
+	void runTabuSearch() {
+		Matrix matrix = new Matrix(m1);
+		matrix.printMatrix();
+//		TabuSearch tabuSearch = new TabuSearch(matrix); 
+//		tabuSearch.invoke();
+	}
+
+	int iGlobal = 0;
+	Timer timer;
+	
+	void runSolution(int[] solution) {
+		int[] so= {0,2,1,0};
+		iGlobal=0;
+		
+		TimerTask task = new TimerTask() {
+	        public void run() {
+//	        	System.out.println("start point and end point is:"+start+" "+end);
+	        	
+	    		edges.searchEdgeWithInt(so[iGlobal], so[iGlobal+1]).getLine().setVisible(true);
+	    		iGlobal++;
+	    		if (iGlobal==so.length-1) timer.cancel();
+	        }
+	    };
+	     timer = new Timer("Timer");
+	    
+	    timer.schedule(task,0,1000);
+	    
+	    
+	    System.out.println("Hello istherew");
+	    
+
+	}
 	@FXML
     void AddCity() {
 		removeCityRadioBtn.setSelected(false);
@@ -218,7 +261,7 @@ public class SeGuiController {
 						graphArea.getChildren().add(0, e1.getLine());
 //						graphArea.getChildren().add(e1.getLine());
 						edges.addEdge(e1);
-						edges.showEdges();
+//						edges.showEdges();
 					}else {
 						
 					}
@@ -266,14 +309,33 @@ public class SeGuiController {
         if (td.showAndWait().isPresent()) {
         	 try {
                  int num = Integer.parseInt(td.getResult());
-                 System.out.println(num);
+//                 System.out.println(num);
                  return num;
              } catch (NumberFormatException e) {
-             	System.out.println(td.getResult());
+//             	System.out.println(td.getResult());
                  return createDialog();
              }
         }else return -1;
        
 	}
+	void makeMatrix() {
+		m1 = new int[list.size()][list.size()];
+		for (int i =0;i< edges.getSequence().size();i++) {
+			m1[edges.getSequence().get(i).getIndexStartInInt()][edges.getSequence().get(i).getIndexEndInInt()] = edges.getSequence().get(i).getCost();
+			m1[edges.getSequence().get(i).getIndexEndInInt()][edges.getSequence().get(i).getIndexStartInInt()] = edges.getSequence().get(i).getCost();
+		}
+//		for (int i =0;i<m1.length;i++) {
+//			for (int j =0;j<m1.length;j++) {
+//				System.out.print(m1[i][j]+"\t");
+//			}
+//			System.out.println();
+//		}
+	}
+	void invisibleEdge() {
+		for (int i =0;i< edges.getSequence().size();i++) {
+			edges.getSequence().get(i).getLine().setVisible(false);
+		}
+	}
+	
 	
 }

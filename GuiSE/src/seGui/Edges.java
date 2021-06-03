@@ -22,11 +22,11 @@ public class Edges {
 					edge.getEnd().getX() == sequence.get(i).getEnd().getX() &&
 							edge.getEnd().getY() == sequence.get(i).getEnd().getY()
 					) {
-				System.out.println("edge exists");
+//				System.out.println("edge exists");
 				return 1;
 			}
 		}
-		System.out.println("edge did not exist");
+//		System.out.println("edge did not exist");
 		return -1;
 	}
 	public Boolean addEdge(Edge edge) {
@@ -35,7 +35,7 @@ public class Edges {
 				return false;
 			}else {
 				sequence.add(edge);
-			System.out.println("The edge has been added to the current sequence!");
+//			System.out.println("The edge has been added to the current sequence!");
 			return true;
 			}
 		}
@@ -47,7 +47,7 @@ public class Edges {
 			return true;
 		}else {
 		
-		System.out.println("The edge has been added to the current sequence!");
+//		System.out.println("The edge has been added to the current sequence!");
 		return false;
 		}
 		
@@ -57,6 +57,14 @@ public class Edges {
 		for (int i=0;i<sequence.size();i++) {
 			System.out.println(sequence.get(i).getStart().getX()+"\t"+sequence.get(i).getStart().getY());
 		}
+	}
+	public Edge searchEdgeWithInt(int s, int e) {
+		for (int i =0 ;i< sequence.size();i++) {
+			if ((sequence.get(i).getIndexStartInInt() == e && sequence.get(i).getIndexEndInInt() == s)||(sequence.get(i).getIndexStartInInt() == s && sequence.get(i).getIndexEndInInt() == e)) {
+				return sequence.get(i);
+			}
+		}
+		return null;
 	}
 		
 	

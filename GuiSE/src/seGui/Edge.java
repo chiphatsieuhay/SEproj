@@ -39,11 +39,16 @@ public class Edge {
 		return ((start == s&& end ==e)||(start == e&& end ==s));
 	}
 	public String getIndexStart() {
-		System.out.println("This is get Index Start"+ this.start.index());
 		return this.start.index();
+	}
+	public int getIndexStartInInt() {
+		return Integer.parseInt(this.start.index());
 	}
 	public String getIndexEnd() {
 		return this.end.index();
+	}
+	public int getIndexEndInInt() {
+		return  Integer.parseInt(this.end.index());
 	}
 	
 }

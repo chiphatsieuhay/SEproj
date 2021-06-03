@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="1000.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seGui.SeGuiController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seGui.SeGuiController">
    <left>
       <VBox prefHeight="800.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
@@ -15,14 +15,14 @@
             <RadioButton fx:id="removeCityRadioBtn" mnemonicParsing="false" onAction="#RemoveCity" text="Remove City" />
             <RadioButton fx:id="addEdgeRadioBtn" mnemonicParsing="false" onAction="#AddEdge" text="Add  Edge" />
             <RadioButton fx:id="removeEdgeRadioBtn" mnemonicParsing="false" onAction="#RemoveEdge" text="Remove Edge" />
-            <TableView fx:id="weigthTbl" prefHeight="300.0">
+            <TableView fx:id="weigthTbl">
               <columns>
                 <TableColumn fx:id="StartCol" prefWidth="75.0" text="Start" />
                 <TableColumn fx:id="EndCol" prefWidth="75.0" text="End" />
                   <TableColumn fx:id="CostCol" prefWidth="75.0" text="Cost" />
               </columns>
             </TableView>
-            <TitledPane alignment="TOP_LEFT" lineSpacing="5.0" text="Choose algorithm">
+            <TitledPane alignment="TOP_LEFT" expanded="false" lineSpacing="5.0" text="Choose algorithm">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" opacity="0.81">
                      <children>
@@ -39,7 +39,7 @@
                   <Insets />
                </VBox.margin>
             </TitledPane>
-            <TitledPane text="Choose a way to run">
+            <TitledPane expanded="false" text="Choose a way to run">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0">
                      <children>
@@ -49,15 +49,16 @@
                   </AnchorPane>
               </content>
             </TitledPane>
+            <HBox alignment="TOP_CENTER">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#runBtnPressed" prefWidth="100.0" text="Run" />
+               </children>
+            </HBox>
             <Slider disable="true" minorTickCount="5" showTickLabels="true" value="25.0">
                <opaqueInsets>
                   <Insets />
-               </opaqueInsets></Slider>
-            <HBox alignment="TOP_CENTER">
-               <children>
-                  <Button mnemonicParsing="false" prefWidth="100.0" text="Run" />
-               </children>
-            </HBox>
+               </opaqueInsets>
+            </Slider>
             <HBox alignment="TOP_CENTER" spacing="10.0">
                <children>
                   <Button disable="true" mnemonicParsing="false" text="Previous Step" />
