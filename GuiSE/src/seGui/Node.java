@@ -15,6 +15,9 @@ public class Node {
 	private Text text = new Text();
 	private Circle circle;
 	private StackPane stack;
+	public boolean IsThisNode(int text) {
+		return text == this.indexByInt();
+	}
 	public double getX() {
 		return x;
 	}
@@ -60,6 +63,9 @@ public class Node {
 	public String index() {
 		return text.getText();
 		
+	}
+	public int indexByInt() {
+		return Integer.parseInt(this.index());  
 	}
 	
 }

@@ -2,6 +2,7 @@ package seGui;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.paint.Color;
 
 public class Edges {
 	private ObservableList<Edge> sequence = FXCollections.observableArrayList();
@@ -52,7 +53,13 @@ public class Edges {
 		}
 		
 	}
-	
+	public void visibleEdges(int[] solution, Color color) {
+		int[] so= solution;
+		for (int i =0 ; i< this.sequence.size()-1;i++) {
+//			if (!this.searchEdgeWithInt(solution[i], solution[i+1]).getLine().isVisible())
+			this.searchEdgeWithInt(so[i], so[i+1]).getLine().setVisible(true);
+		}
+	}
 	public void showEdges() {
 		for (int i=0;i<sequence.size();i++) {
 			System.out.println(sequence.get(i).getStart().getX()+"\t"+sequence.get(i).getStart().getY());

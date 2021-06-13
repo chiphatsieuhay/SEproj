@@ -1,10 +1,29 @@
 package seGui;
 
+import java.util.Random;
+
 public class Matrix {
 	private int[][] matrix;
 
     private int edgeCount;
-
+    
+    public Matrix(int size) {
+        edgeCount = size;
+         matrix = new int[size][size];
+         generateMatrix(size);
+     }
+    private void generateMatrix(int size) {
+        Random random = new Random();
+        for (int row = 0; row < size; row++) {
+            for (int col = 0; col < size; col++) {
+                if (row != col) {
+                    int value = random.nextInt(100) + 1;
+                    matrix[row][col] = value;
+                    matrix[col][row] = value;
+                }
+            }
+        }
+    }
     public Matrix(int[][] matrix) {
         edgeCount = matrix.length;
        this.matrix = matrix;

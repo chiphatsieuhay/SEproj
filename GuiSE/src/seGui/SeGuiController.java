@@ -9,6 +9,7 @@ package seGui;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import Tabu.TabuSearch;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -28,6 +29,7 @@ import javafx.scene.paint.Color;
 public class SeGuiController {
 	
 	int[][] m1;
+	Matrix matrix;
 	
 	ObservableList<Node> list = FXCollections.observableArrayList();
 	
@@ -95,18 +97,43 @@ public class SeGuiController {
 	
 	@FXML
 	void runBtnPressed()  {
-		makeMatrix();
-//		invisibleEdge();
-//		runSolution(null);
+		matrix = new Matrix(list.size());
+		matrix.printMatrix();
+		drawEdges();
 		runTabuSearch();
 		
-		System.out.print("Done");
+		
 	}
 	void runTabuSearch() {
-		Matrix matrix = new Matrix(m1);
-		matrix.printMatrix();
-//		TabuSearch tabuSearch = new TabuSearch(matrix); 
-//		tabuSearch.invoke();
+		TabuSearch tabuSearch = new TabuSearch(matrix);  
+        tabuSearch.invoke();   
+		
+	}
+	
+	void drawEdges() {
+		for (int i = 0; i< list.size();i++) {
+			for (int j = 0 ; j< i ; j++) {
+				int tim = 0;
+				for (int k = 0;k<list.size();k++) {
+					if (list.get(k).IsThisNode(i)||list.get(k).IsThisNode(j)) {
+						tim++;
+						if (tim == 1) {
+							this.S = list.get(k);
+						}else if (tim==2) {
+							this.E = list.get(k);
+							break;
+						}
+						
+						
+					}
+				}
+				Edge e1 = new Edge(this.S, this.E, matrix.getWeight(i, j));
+				graphArea.getChildren().add(0, e1.getLine());
+//				graphArea.getChildren().add(e1.getLine());
+				edges.addEdge(e1);
+//				edges.showEdges();
+			}
+		}
 	}
 
 	int iGlobal = 0;
@@ -336,6 +363,7 @@ public class SeGuiController {
 			edges.getSequence().get(i).getLine().setVisible(false);
 		}
 	}
+	
 	
 	
 }
