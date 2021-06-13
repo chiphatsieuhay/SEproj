@@ -58,8 +58,8 @@ public class SeGuiController {
 		
 	}
 	
-	Color color = new Color(0, 0, 0, 0) ;
-	
+	Color colorCur = Color.GREEN;
+	Color colorBest = Color.RED;
 	
 
 	
@@ -73,7 +73,7 @@ public class SeGuiController {
 	
 	Node S;
 	Node E;
-	
+	TabuSearch tabuSearch;
 	Boolean clickOnNode(double X,double Y,double eX,double eY) {
 		
 		if ((Math.abs(X-eX)<=17) && (Math.abs(Y-eY)<=17)){
@@ -105,9 +105,10 @@ public class SeGuiController {
 		
 	}
 	void runTabuSearch() {
-		TabuSearch tabuSearch = new TabuSearch(matrix);  
+		tabuSearch = new TabuSearch(matrix);  
         tabuSearch.invoke();   
-		
+        edges.inVisibleEdgeAll();
+		runSolution();
 	}
 	
 	void drawEdges() {
@@ -138,26 +139,24 @@ public class SeGuiController {
 
 	int iGlobal = 0;
 	Timer timer;
-	
-	void runSolution(int[] solution) {
-		int[] so= {0,2,1,0};
+	int runOnBest = 0;
+	void runSolution() {
+		
 		iGlobal=0;
 		
-		TimerTask task = new TimerTask() {
-	        public void run() {
-//	        	System.out.println("start point and end point is:"+start+" "+end);
-	        	
-	    		edges.searchEdgeWithInt(so[iGlobal], so[iGlobal+1]).getLine().setVisible(true);
-	    		iGlobal++;
-	    		if (iGlobal==so.length-1) timer.cancel();
-	        }
-	    };
-	     timer = new Timer("Timer");
-	    
-	    timer.schedule(task,0,1000);
-	    
-	    
-	    System.out.println("Hello istherew");
+//		TimerTask task = new TimerTask() {
+//	        public void run() {
+////	        	System.out.println("start point and end point is:"+start+" "+end);
+//	        	 invisibleEdge();
+//	        	 System.out.println("Hello"+iGlobal);
+////	    		edges.visibleEdges(tabuSearch.solutions[iGlobal], color);
+//	    		iGlobal++;
+//	    		if (iGlobal==tabuSearch.numberOfIterations) timer.cancel();
+//	        }
+//	    };
+		 MyTask myTask = new MyTask();
+		 timer = new Timer();
+		 timer.schedule(myTask, 0, 500);
 	    
 
 	}
@@ -359,11 +358,36 @@ public class SeGuiController {
 //		}
 	}
 	void invisibleEdge() {
+		System.out.println("xoa");
 		for (int i =0;i< edges.getSequence().size();i++) {
 			edges.getSequence().get(i).getLine().setVisible(false);
 		}
 	}
-	
+	public class MyTask extends TimerTask {
+		  @Override
+		  public void run() {
+		    System.out.println("Run my Task " );
+		    
+		  edges.inVisibleEdgeAll();
+//		  if (iGlobal == tabuSearch.bestSolutions.get(runOnBest)) {
+//			  edges.visibleEdges(tabuSearch.solutions[iGlobal], colorBest);
+//			  if (runOnBest<tabuSearch.bestSolutions.size()-1)runOnBest++;
+//		  }else {
+//			  edges.visibleEdges(tabuSearch.solutions[iGlobal], colorCur);
+//		  }
+		  	
+//		  	edges.visibleEdges(tabuSearch.solutions[tabuSearch.bestSolutions.get(runOnBest)], colorBest);
+		  	
+		  	if (iGlobal == tabuSearch.bestSolutions.get(runOnBest)&& runOnBest<tabuSearch.bestSolutions.size()-1) 
+		  	{
+		  		edges.visibleEdges(tabuSearch.solutions[tabuSearch.bestSolutions.get(runOnBest)], colorBest);
+		  		runOnBest++;
+		  	}
+		  	else edges.visibleEdges(tabuSearch.solutions[iGlobal], colorCur);	
+		    iGlobal++;
+		    if (iGlobal==tabuSearch.numberOfSolution) timer.cancel();
+		  }
+		}
 	
 	
 }

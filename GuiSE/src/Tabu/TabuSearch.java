@@ -7,9 +7,9 @@ import seGui.Matrix;
 public class TabuSearch {
 	 private TabuList tabuList;
 	    private final Matrix matrix;
-	    int numberOfSolution = -1;
+	    public int numberOfSolution = -1;
 	    int[] currSolution;
-	    int numberOfIterations;
+	    public int numberOfIterations;
 	    int problemSize;
 
 
@@ -48,9 +48,10 @@ public class TabuSearch {
 
 	    private void printSolution(int[] solution) {
 	    	numberOfSolution++;
-	        solutions[numberOfSolution]=  solution;
+//	        solutions[numberOfSolution]=  solution;
 	        System.out.print(numberOfSolution+":");
 	        for (int i = 0; i < solution.length; i++) {
+	        	solutions[numberOfSolution][i]= solution[i];
 	            System.out.print(solution[i] + " ");
 	            // solutions[x][i]= solution[i];
 	        }
@@ -58,8 +59,8 @@ public class TabuSearch {
 	        
 	    }
 	    private void printBestSolution(int[] solution) {
-	    	System.out.print(numberOfSolution+":");
-	        bestSolutions.add(numberOfSolution);
+	    	System.out.print(bestSolutions.size()+":");
+	    	bestSolutions.add(numberOfSolution);
 	        for (int i = 0; i < solution.length; i++) {
 	            System.out.print(solution[i] + " ");
 	            // solutions[x][i]= solution[i];
@@ -71,13 +72,14 @@ public class TabuSearch {
 
 	    public void printSolutions(){
 	        for (int i = 0 ;i<=numberOfSolution;i++){
+	        	System.out.print(i+":");
 	            for (int j = 0 ;j< currSolution.length;j++)System.out.print(solutions[i][j]+" ");
 	            System.out.println();
 	        }
 	    }
 
 	    public void invoke() {
-
+	    	outerloop:
 	        for (int i = 0; i < numberOfIterations; i++) {
 	            int city1 = 0;
 	            int city2 = 0;
@@ -97,6 +99,7 @@ public class TabuSearch {
 	                            bestCost = currCost;
 	                            
 	                        }
+	                        if (numberOfSolution >= problemSize*100)break outerloop;
 	                    }
 	                }
 	            }
@@ -110,9 +113,10 @@ public class TabuSearch {
 	        }
 
 	       // System.out.println("Search done! \nBest Solution cost found = " + bestCost + "\nBest Solution :");
-	    //    printSolutions();
-	        printSolution(bestSolution);
+//	        printSolutions();
+//	        printSolution(bestSolution);
 	        System.out.print(bestCost+" "+numberOfSolution);
+//	        printBestSolution(bestSolution);
 	        for (int i =0 ; i< bestSolutions.size();i++) System.out.print(bestSolutions.get(i)+"\t");
 	    }
 
