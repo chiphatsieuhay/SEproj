@@ -54,29 +54,24 @@ public class Edges {
 		
 	}
 	public void visibleEdges(int[] solution, Color color) {
-		System.out.println(solution.length+"solution length");
+
 		for (int i =0 ; i< solution.length-1;i++) {
-//			if (!this.searchEdgeWithInt(solution[i], solution[i+1]).getLine().isVisible())
-			System.out.println("set visible "+solution[i]+" "+solution[i+1]);
-//			if (this.searchEdgeWithInt(solution[i], solution[i+1]).getLine().isVisible()) {
-//				this.searchEdgeWithInt(solution[i], solution[i+1]).getLine().setStroke(Color.YELLOW);
-//			}else {
+
 				this.searchEdgeWithInt(solution[i], solution[i+1]).getLine().setStroke(color);
 				this.searchEdgeWithInt(solution[i], solution[i+1]).getLine().setVisible(true);
-//			}
 			
 		}
 	}
 	public void inVisibleEdges(int[] solution, Color color) {
 		System.out.println(solution.length+"solution length");
 		for (int i =0 ; i< solution.length-1;i++) {
-//			if (!this.searchEdgeWithInt(solution[i], solution[i+1]).getLine().isVisible())
-			System.out.println("set");
+
+			
 			this.searchEdgeWithInt(solution[i], solution[i+1]).getLine().setVisible(false);
 		}
 	}
 	public void inVisibleEdgeAll() {
-//		System.out.println(solution.length+"solution length");
+
 		for (int i =0;i< this.getSequence().size();i++) {
 			this.getSequence().get(i).getLine().setVisible(false);
 		}

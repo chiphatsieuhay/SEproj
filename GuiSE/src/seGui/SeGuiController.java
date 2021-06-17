@@ -6,6 +6,7 @@ package seGui;
 
 
 
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -14,9 +15,11 @@ import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
@@ -30,6 +33,14 @@ public class SeGuiController {
 	
 	int[][] m1;
 	Matrix matrix;
+	
+	//variable for runTask
+	int runOnBest = 0;
+	public ArrayList<Integer> bestSolutions = new ArrayList<Integer>();
+	public ArrayList<Integer> costForSolutions = new ArrayList<Integer>();
+	public int[][] solutions;
+	public int numberOfSolution;
+	//end variable
 	
 	ObservableList<Node> list = FXCollections.observableArrayList();
 	
@@ -85,7 +96,11 @@ public class SeGuiController {
 	
 	@FXML
     private Pane graphArea;
-	
+	@FXML
+	private TextField currCostTf;
+	@FXML
+	private TextField bestCostTf;
+	//edge radio btn
 	@FXML
     private RadioButton addCityRadioBtn;
 	@FXML
@@ -94,23 +109,110 @@ public class SeGuiController {
     private RadioButton addEdgeRadioBtn;
 	@FXML
     private RadioButton removeEdgeRadioBtn;
+	//algorithm btn
+	@FXML
+    private RadioButton tabuSeachBtn;
+	@FXML
+    private RadioButton sABtn;
+	@FXML
+    private RadioButton aBCBtn;
+	//runbtn
+	@FXML
+    private Button runBtn;
+	@FXML
+    private Button generateBtn;
+	
+
 	
 	@FXML
-	void runBtnPressed()  {
+	void didPressTabuSearch(){
+		tabuSeachBtn.setSelected(true);
+		sABtn.setSelected(false);
+		aBCBtn.setSelected(false);
+	}
+	@FXML
+	void didPressSABtn(){
+		tabuSeachBtn.setSelected(false);
+		sABtn.setSelected(true);
+		aBCBtn.setSelected(false);
+	}
+	@FXML
+	void didPressABCBtn(){
+		tabuSeachBtn.setSelected(false);
+		sABtn.setSelected(false);
+		aBCBtn.setSelected(true);
+	}
+	@FXML
+    void AddCity() {
+		removeCityRadioBtn.setSelected(false);
+		addEdgeRadioBtn.setSelected(false);
+		removeEdgeRadioBtn.setSelected(false);
+		addCityRadioBtn.setSelected(true);
+    }
+	
+	@FXML
+    void RemoveCity() {
+		addCityRadioBtn.setSelected(false);
+		addEdgeRadioBtn.setSelected(false);
+		removeEdgeRadioBtn.setSelected(false);
+		removeCityRadioBtn.setSelected(true);
+    }
+	
+	@FXML
+    void AddEdge() {
+		addEdgeRadioBtn.setSelected(true);
+		addCityRadioBtn.setSelected(false);
+		removeCityRadioBtn.setSelected(false);
+		removeEdgeRadioBtn.setSelected(false);
+	
+    }
+	@FXML
+	void RemoveEdge() {
+		addCityRadioBtn.setSelected(false);
+		removeCityRadioBtn.setSelected(false);
+		addEdgeRadioBtn.setSelected(false);
+		removeEdgeRadioBtn.setSelected(true);
+    }
+	
+	@FXML
+	void didPressGenerateBtn(){
 		matrix = new Matrix(list.size());
 		matrix.printMatrix();
 		drawEdges();
+	}
+	
+	@FXML
+	void runBtnPressed()  {
+		disableBtn(true);
 		runTabuSearch();
 		
 		
-	}
+	}	
 	void runTabuSearch() {
 		tabuSearch = new TabuSearch(matrix);  
         tabuSearch.invoke();   
         edges.inVisibleEdgeAll();
+        bestSolutions = tabuSearch.bestSolutions;
+        solutions = tabuSearch.solutions;
+        numberOfSolution = tabuSearch.numberOfSolution;
+        costForSolutions = tabuSearch.costForSolutions;
+        for (int i = 0; i< bestSolutions.size();i++)System.out.print(bestSolutions.get(i)+" ");
+        System.out.println("number of solutions"+numberOfSolution);
 		runSolution();
 	}
-	
+	void disableBtn(boolean bool) {
+		tabuSeachBtn.setDisable(bool);
+		sABtn.setDisable(bool);
+		aBCBtn.setDisable(bool);
+		
+		addEdgeRadioBtn.setDisable(bool);
+		addCityRadioBtn.setDisable(bool);
+		removeCityRadioBtn.setDisable(bool);
+		removeEdgeRadioBtn.setDisable(bool);
+		
+		runBtn.setDisable(bool);
+		generateBtn.setDisable(bool);
+	}
 	void drawEdges() {
 		for (int i = 0; i< list.size();i++) {
 			for (int j = 0 ; j< i ; j++) {
@@ -139,85 +241,33 @@ public class SeGuiController {
 
 	int iGlobal = 0;
 	Timer timer;
-	int runOnBest = 0;
+	
 	void runSolution() {
-		
+		runOnBest=0;
 		iGlobal=0;
-		
-//		TimerTask task = new TimerTask() {
-//	        public void run() {
-////	        	System.out.println("start point and end point is:"+start+" "+end);
-//	        	 invisibleEdge();
-//	        	 System.out.println("Hello"+iGlobal);
-////	    		edges.visibleEdges(tabuSearch.solutions[iGlobal], color);
-//	    		iGlobal++;
-//	    		if (iGlobal==tabuSearch.numberOfIterations) timer.cancel();
-//	        }
-//	    };
 		 MyTask myTask = new MyTask();
 		 timer = new Timer();
-		 timer.schedule(myTask, 0, 500);
+		 timer.schedule(myTask, 0, 100);
 	    
 
 	}
-	@FXML
-    void AddCity() {
-		removeCityRadioBtn.setSelected(false);
-		addEdgeRadioBtn.setSelected(false);
-		removeEdgeRadioBtn.setSelected(false);
-	
-    }
-	
-	@FXML
-    void RemoveCity() {
-		addCityRadioBtn.setSelected(false);
-		addEdgeRadioBtn.setSelected(false);
-		removeEdgeRadioBtn.setSelected(false);
-	
-    }
-	
-	@FXML
-    void AddEdge() {
-		addCityRadioBtn.setSelected(false);
-		removeCityRadioBtn.setSelected(false);
-		removeEdgeRadioBtn.setSelected(false);
-	
-    }
-	@FXML
-	void RemoveEdge() {
-		addCityRadioBtn.setSelected(false);
-		removeCityRadioBtn.setSelected(false);
-		addEdgeRadioBtn.setSelected(false);
-	
-    }
-	
+
 	@FXML
     void graphAreaClicked(MouseEvent event) {
 		
 		if (addCityRadioBtn.isSelected()) {
 			StackPane stack = new StackPane();
-//			Text text = new Text();
 			Node node= new Node(event.getX()-15, event.getY()-15, list.size(), stack);;
 			list.add(node);
-	
-//			text.setText(Integer.toString(list.indexOf(node)));
-			
-			
-//			text.textProperty().bindBidirectional(list.indexOf(node));
-			
 	        graphArea.getChildren().add(node.getStack());
-
 	        
 		}else if (removeCityRadioBtn.isSelected()) {
 			int a = 0;
-			for (int i = 0; i < list.size(); i++) {
-				 
-	                if (clickOnNode(list.get(i).getX(),list.get(i).getY(),event.getX()-15,event.getY()-15)&&a==0) {
-	                	 
+			for (int i = 0; i < list.size(); i++) {			 
+	                if (clickOnNode(list.get(i).getX(),list.get(i).getY(),event.getX()-15,event.getY()-15)&&a==0) {     	 
 	                    graphArea.getChildren().remove(list.get(i).getStack());
 	                    list.remove(i);
-	                   a =1 ;
-	                    
+	                   a =1 ;           
 	                }if(a ==1) {
 	                	list.get(i).updateText(i);
 	                }
@@ -350,44 +400,31 @@ public class SeGuiController {
 			m1[edges.getSequence().get(i).getIndexStartInInt()][edges.getSequence().get(i).getIndexEndInInt()] = edges.getSequence().get(i).getCost();
 			m1[edges.getSequence().get(i).getIndexEndInInt()][edges.getSequence().get(i).getIndexStartInInt()] = edges.getSequence().get(i).getCost();
 		}
-//		for (int i =0;i<m1.length;i++) {
-//			for (int j =0;j<m1.length;j++) {
-//				System.out.print(m1[i][j]+"\t");
-//			}
-//			System.out.println();
-//		}
+
 	}
-	void invisibleEdge() {
-		System.out.println("xoa");
-		for (int i =0;i< edges.getSequence().size();i++) {
-			edges.getSequence().get(i).getLine().setVisible(false);
-		}
-	}
+	
 	public class MyTask extends TimerTask {
 		  @Override
-		  public void run() {
-		    System.out.println("Run my Task " );
-		    
+		  public void run() {		    
 		  edges.inVisibleEdgeAll();
-//		  if (iGlobal == tabuSearch.bestSolutions.get(runOnBest)) {
-//			  edges.visibleEdges(tabuSearch.solutions[iGlobal], colorBest);
-//			  if (runOnBest<tabuSearch.bestSolutions.size()-1)runOnBest++;
-//		  }else {
-//			  edges.visibleEdges(tabuSearch.solutions[iGlobal], colorCur);
-//		  }
 		  	
-//		  	edges.visibleEdges(tabuSearch.solutions[tabuSearch.bestSolutions.get(runOnBest)], colorBest);
-		  	
-		  	if (iGlobal == tabuSearch.bestSolutions.get(runOnBest)&& runOnBest<tabuSearch.bestSolutions.size()-1) 
+		  	if (iGlobal == bestSolutions.get(runOnBest)&& runOnBest<bestSolutions.size()) 
 		  	{
-		  		edges.visibleEdges(tabuSearch.solutions[tabuSearch.bestSolutions.get(runOnBest)], colorBest);
-		  		runOnBest++;
+		  		edges.visibleEdges(solutions[iGlobal], colorBest);  		
+		  		bestCostTf.setText(String.valueOf(costForSolutions.get(iGlobal)));  		
+		  		currCostTf.setText(String.valueOf(costForSolutions.get(iGlobal)));
+		  		if (runOnBest==bestSolutions.size()-1) {}
+		  		else runOnBest++;
 		  	}
-		  	else edges.visibleEdges(tabuSearch.solutions[iGlobal], colorCur);	
+		  	else {
+		  		edges.visibleEdges(solutions[iGlobal], colorCur);	  		
+		  		currCostTf.setText(String.valueOf(costForSolutions.get(iGlobal)));
+		  	}	
+		    if (iGlobal==numberOfSolution) {
+		    	disableBtn(false);
+		    	timer.cancel();
+		    } 
 		    iGlobal++;
-		    if (iGlobal==tabuSearch.numberOfSolution) timer.cancel();
 		  }
-		}
-	
-	
+		}		
 }
