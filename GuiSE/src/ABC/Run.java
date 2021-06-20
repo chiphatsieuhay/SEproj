@@ -10,7 +10,7 @@ public class Run {
 	public static int[][] solutions;
 	public static int numberOfSolution;
 	public static void main(String[] args) {
-		int runOnBest = 0;
+	
 		
 		int [][] m = {{0,132,217,164,158},
 					{132,0,290,201,79},

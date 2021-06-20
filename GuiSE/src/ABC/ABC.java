@@ -2,7 +2,6 @@ package ABC;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Random;
 
 import seGui.Matrix;
@@ -15,6 +14,7 @@ public class ABC implements Algorithm{
 	private int I;
 	private int[] XX = new int[1000];
 	//private int[] BestSolution;
+	int A,B;
 	public ArrayList<Integer> bestSolution = new ArrayList<Integer>();
 	private int[][] Solution;
 	private OngTho[] ongtho = new OngTho[1000];
@@ -119,7 +119,8 @@ public class ABC implements Algorithm{
 			
 		}
 		shuffleArray();
-		
+		bestSolution.add(0);
+		B=0;
 	}
 	public void EqualArray(int[] A,int[] B) {
 		for(int i = 0 ; i<=D-1 ; i++) {
@@ -255,7 +256,6 @@ public class ABC implements Algorithm{
 		Proba = proba;
 	}
 	public void invoke(){
-		int[] temp = new int[N/2];
 		init();
 		for(int q = 0 ; q <= this.I - 1; q++) {
 			sumfit = 0;
@@ -278,21 +278,25 @@ public class ABC implements Algorithm{
 		}
 		//System.out.print(Arrays.toString(XX));
 		for(int i = 0; i <= N/2-1 ; i++) {
-			Random rd = new Random();   // khai báo 1 đối tượng Random
+			Random rd = new Random();   // 
 		    int number1 = rd.nextInt(99);
 		    EqualArray(this.ongquansat[i].getFoodSoure(), this.ongtho[XX[number1]].getFoodSource().getElement());
 		    Temp1[k+i] = XX[number1] + k;
 		}
-		int A;
-		A = matrix.calculateDistance(this.ongquansat[0].getFoodSoure());
+		int index = bestSolution.size();
+		System.out.println(index);
+		A = matrix.calculateDistance(Solution[B]);
 		System.out.println(A);
 		int temp1;
 		for(int i = k;i<=k+N/2-1;i++) {
 		
-			if(A < matrix.calculateDistance(this.ongquansat[i-k].getFoodSoure())) {
-				A = matrix.calculateDistance(this.ongquansat[i-k].getFoodSoure());
+			if(matrix.calculateDistance(this.ongquansat[i-k].getFoodSoure()) < A) {
+				
 				temp1 = Temp1[i];
 				bestSolution.add(Temp1[i]);
+				index = bestSolution.size();
+				B = temp1;
+				A = matrix.calculateDistance(Solution[temp1]);
 			}
 		
 		}

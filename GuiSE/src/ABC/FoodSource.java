@@ -1,6 +1,6 @@
 package ABC;
 
-import java.util.Arrays;
+
 import java.util.Random;
 
 public class FoodSource {
@@ -37,7 +37,7 @@ public class FoodSource {
 	}
 	public int[] generateSolution()
 	{	
-	    int index;
+
 	    Random random = new Random();
 	    
 	    	for (int i = 1; i < this.size_length-2; i++) {

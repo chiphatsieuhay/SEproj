@@ -242,19 +242,16 @@ public class SeGuiController {
 		this.bestSolutions = abc.getBestSolution();
 		numberOfSolution = abc.getNumberOfSolution()-1;
         costForSolutions = abc.getCostOfSolution();
-//        for (int i =0; i<= numberOfSolution;i++) {
-//        	System.out.println("\t" + costForSolutions.get(i));
-//        }
-//        for(int i=0;i<=numberOfSolution;i++) {
-//        	System.out.print(i+":");
-//        	for(int j =0;j < abc.getD();j++) {
-//        		System.out.print(solutions[i][j] + "  ");
-//        	}
-//        	System.out.println("\t" + costForSolutions.get(i));
-//        }
-//        for (int i = 0; i< bestSolutions.size() ; i++) {
-//        	System.out.print("\t" + bestSolutions.get(i));
-//        }
+        for(int i=0;i<=numberOfSolution;i++) {
+        	System.out.print(i+":");
+        	for(int j =0;j < abc.getD();j++) {
+        		System.out.print(solutions[i][j] + "  ");
+        	}
+        	System.out.println("\t" + costForSolutions.get(i));
+        }
+        for (int i = 0; i< bestSolutions.size() ; i++) {
+        	System.out.print("\t" + bestSolutions.get(i));
+        }
         runSolution();
         }
 	void disableBtn(boolean bool) {
