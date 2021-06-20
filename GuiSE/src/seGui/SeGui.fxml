@@ -11,7 +11,7 @@
    <left>
       <VBox prefHeight="800.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" text="+NEW" />
+            <Button fx:id="newBtn" mnemonicParsing="false" onAction="#didPressNewBtn" text="+NEW" />
             <RadioButton fx:id="addCityRadioBtn" mnemonicParsing="false" onAction="#AddCity" selected="true" text="Add City" />
             <RadioButton fx:id="removeCityRadioBtn" mnemonicParsing="false" onAction="#RemoveCity" text="Remove City" />
             <RadioButton fx:id="addEdgeRadioBtn" mnemonicParsing="false" onAction="#AddEdge" text="Add  Edge" />
