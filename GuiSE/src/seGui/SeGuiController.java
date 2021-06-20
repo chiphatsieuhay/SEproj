@@ -223,8 +223,15 @@ public class SeGuiController {
         solutions = tabuSearch.solutions;
         numberOfSolution = tabuSearch.numberOfSolution;
         costForSolutions = tabuSearch.costForSolutions;
-        for (int i = 0; i< bestSolutions.size();i++)System.out.print(bestSolutions.get(i)+" ");
-        System.out.println("number of solutions"+numberOfSolution);
+//        for(int i=0;i<=numberOfSolution;i++) {
+//        	System.out.print(i+":");
+//        	for(int j =0;j <matrix.getSize();j++) {
+//        		System.out.print(solutions[i][j] + "  ");
+//        	}
+//        	System.out.println("\t" + costForSolutions.get(i));
+//        }
+//        for (int i = 0; i< bestSolutions.size();i++)System.out.print(bestSolutions.get(i)+" ");
+//        System.out.println("number of solutions"+numberOfSolution);
 		runSolution();
 	}
 	void runABC() {
@@ -238,16 +245,16 @@ public class SeGuiController {
 //        for (int i =0; i<= numberOfSolution;i++) {
 //        	System.out.println("\t" + costForSolutions.get(i));
 //        }
-        for(int i=0;i<=numberOfSolution;i++) {
-        	System.out.print(i+":");
-        	for(int j =0;j < abc.getD();j++) {
-        		System.out.print(solutions[i][j] + "  ");
-        	}
-        	System.out.println("\t" + costForSolutions.get(i));
-        }
-        for (int i = 0; i< bestSolutions.size() ; i++) {
-        	System.out.print("\t" + bestSolutions.get(i));
-        }
+//        for(int i=0;i<=numberOfSolution;i++) {
+//        	System.out.print(i+":");
+//        	for(int j =0;j < abc.getD();j++) {
+//        		System.out.print(solutions[i][j] + "  ");
+//        	}
+//        	System.out.println("\t" + costForSolutions.get(i));
+//        }
+//        for (int i = 0; i< bestSolutions.size() ; i++) {
+//        	System.out.print("\t" + bestSolutions.get(i));
+//        }
         runSolution();
         }
 	void disableBtn(boolean bool) {
