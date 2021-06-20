@@ -12,6 +12,6 @@ Video Demo: https://husteduvn-my.sharepoint.com/:v:/g/personal/thao_ntt184308_si
 
 SourceCode: folder GuiSE
 
-Report, members assignment: folder Report
+Report: folder Report
 
 Class diagram, Use case diagram, activity diagram: folder Design
