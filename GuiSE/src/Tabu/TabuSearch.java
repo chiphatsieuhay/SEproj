@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import seGui.Matrix;
 
 public class TabuSearch {
-	 private TabuList tabuList;
+	 	private TabuList tabuList;
 	    private final Matrix matrix;
 	    public int numberOfSolution = 0;
 	    int[] currSolution;

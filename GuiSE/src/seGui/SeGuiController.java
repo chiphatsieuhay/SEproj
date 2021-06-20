@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import ABC.ABC;
 import Tabu.TabuSearch;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
@@ -184,10 +185,29 @@ public class SeGuiController {
 	@FXML
 	void runBtnPressed()  {
 		disableBtn(true);
-		runTabuSearch();
+		//runTabuSearch();
+		runABC();
 		
-		
-	}	
+	}
+	void runABC() {
+		ABC abc  = new ABC(matrix);
+		abc.invoke();
+		edges.inVisibleEdgeAll();
+		this.solutions = abc.getSolution();
+		this.bestSolutions = abc.getBestSolution();
+		numberOfSolution = abc.getNumberOfSolution();
+        costForSolutions = abc.getCostOfSolution();
+        for(int i=0;i<=numberOfSolution;i++) {
+        	for(int j =0;j <= abc.getD();j++) {
+        		System.out.print(solutions[i][j] + "  ");
+        	}
+        	System.out.println("\t" + costForSolutions.get(i));
+        }
+        
+        for (int i = 0; i< bestSolutions.size();i++)System.out.print(bestSolutions.get(i)+" ");
+        System.out.println("number of solutions"+numberOfSolution);
+		runSolution();
+	}
 	void runTabuSearch() {
 		tabuSearch = new TabuSearch(matrix);  
         tabuSearch.invoke();   
@@ -196,6 +216,7 @@ public class SeGuiController {
         solutions = tabuSearch.solutions;
         numberOfSolution = tabuSearch.numberOfSolution;
         costForSolutions = tabuSearch.costForSolutions;
+        
         for (int i = 0; i< bestSolutions.size();i++)System.out.print(bestSolutions.get(i)+" ");
         System.out.println("number of solutions"+numberOfSolution);
 		runSolution();
